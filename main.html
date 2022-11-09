@@ -1,0 +1,72 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+  </head>
+  <body>
+    <h1>Main</h1>
+
+    <p>Place for update from Application A -> <span id="applicationAPlaceholder"></span></p>
+    <p>Place for update from Application B -> <span id="applicationBPlaceholder"></span></p>
+
+    <p>Activity Status: <span id="applicationActivityStatusPlaceholder"></span></p>
+
+    <button id="applicationATrigger">Open Application A</button>
+    <button id="applicationBTrigger">Open Application B</button>
+    <button id="applicationMainTrigger">Update child applications</button>
+
+    <script src="constants.js"></script>
+    <script src="utils.js"></script>
+    <script src="alert-timeout.js"></script>
+    <script>
+      function listenATrigger() {
+        const applicationATrigger = document.getElementById("applicationATrigger");
+
+        applicationATrigger.addEventListener("click", () => {
+          openFile("application-a.html");
+        });
+      }
+
+      function listenBTrigger() {
+        const applicationBTrigger = document.getElementById("applicationBTrigger");
+
+        applicationBTrigger.addEventListener("click", () => {
+          openFile("application-b.html");
+        });
+      }
+
+      function listenMainTrigger() {
+        const applicationMainTrigger = document.getElementById("applicationMainTrigger");
+
+        connectElementToEvent(applicationMainTrigger, APPLICATION_MAIN_EVENT);
+      }
+
+      function listenAEvents() {
+        const aPlaceholder = document.getElementById("applicationAPlaceholder");
+
+        connectEventToElement(APPLICATION_A_MAIN_EVENT, aPlaceholder);
+      }
+
+      function listenBEvents() {
+        const bPlaceholder = document.getElementById("applicationBPlaceholder");
+
+        connectEventToElement(APPLICATION_B_MAIN_EVENT, bPlaceholder);
+      }
+
+      function listenTimeoutStatus() {
+        const activityStatusPlaceholder = document.getElementById("applicationActivityStatusPlaceholder");
+
+        connectActivityStatusToElement(activityStatusPlaceholder);
+      }
+
+      listenATrigger();
+      listenBTrigger();
+      listenMainTrigger();
+      listenAEvents();
+      listenBEvents();
+      listenTimeoutStatus();
+    </script>
+  </body>
+</html>

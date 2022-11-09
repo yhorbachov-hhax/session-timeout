@@ -1,0 +1,44 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application A</title>
+  </head>
+  <body>
+    <h1>Application A</h1>
+
+    <p>Place for update from Main -> <span id="applicationMainPlaceholder"></span></p>
+
+    <p>Activity Status: <span id="applicationActivityStatusPlaceholder"></span></p>
+
+    <button id="mainTrigger">Send update to Main Application</button>
+
+    <script src="constants.js"></script>
+    <script src="utils.js"></script>
+    <script src="alert-timeout.js"></script>
+    <script>
+      function listenMainTrigger() {
+        const mainTrigger = document.getElementById("mainTrigger");
+
+        connectElementToEvent(mainTrigger, APPLICATION_A_MAIN_EVENT);
+      }
+
+      function listenMainEvents() {
+        const applicationMainPlaceholder = document.getElementById("applicationMainPlaceholder");
+
+        connectEventToElement(APPLICATION_MAIN_EVENT, applicationMainPlaceholder);
+      }
+
+      function listenTimeoutStatus() {
+        const activityStatusPlaceholder = document.getElementById("applicationActivityStatusPlaceholder");
+
+        connectActivityStatusToElement(activityStatusPlaceholder);
+      }
+
+      listenMainEvents();
+      listenMainTrigger();
+      listenTimeoutStatus();
+    </script>
+  </body>
+</html>
