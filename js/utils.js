@@ -4,6 +4,14 @@ function getTopWindow() {
   return targetWindow.top;
 }
 
+function getCurrentFocusedWindow() {
+  return getTopWindow().focusedWindow;
+}
+
+function setCurrentFocusedWindow(targetWindow) {
+  getTopWindow().focusedWindow = targetWindow;
+}
+
 function getCurrentTime() {
   return new Date().getTime();
 }

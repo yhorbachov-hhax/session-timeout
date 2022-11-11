@@ -1,11 +1,10 @@
-const WARNING_IDLE_IN_SECONDS = 20 * 1000;
-const EXPIRED_IDLE_IN_SECONDS = 30 * 1000;
+
 let lastActivityTime = null;
 let intervalId = null;
 
 function listenTimeoutAtBackground() {
   intervalId = setInterval(() => {
-    if (checkIsWarningActivity()) {
+    if (checkIsCurrentFocusedWindow() && checkIsWarningActivity()) {
       alert("Idle");
 
       if (checkIsExpiredActivity()) {
@@ -36,11 +35,11 @@ function checkActivityDiffTime() {
 }
 
 function checkIsWarningActivity() {
-  return checkActivityDiffTime() >= WARNING_IDLE_IN_SECONDS;
+  return checkActivityDiffTime() >= WARNING_IDLE_MILLISECONDS;
 }
 
 function checkIsExpiredActivity() {
-  return checkActivityDiffTime() >= EXPIRED_IDLE_IN_SECONDS;
+  return checkActivityDiffTime() >= EXPIRED_IDLE_MILLISECONDS;
 }
 
 function expireActivityTime() {
@@ -61,8 +60,22 @@ function computeActivityStatus() {
   return lastActivityTime ? "Active" : "Expired";
 }
 
+function listenWindowFocus() {
+  window.addEventListener("focus", () => {
+    setCurrentFocusedWindow(window);
+  });
+
+  setCurrentFocusedWindow(window);
+}
+
+function checkIsCurrentFocusedWindow() {
+  return getCurrentFocusedWindow() === window;
+}
+
 wrapByPatch(refreshActivityTime, APPLICATION_REFRESH);
 
 listenTimeoutAtBackground();
 
 listenApplicationEvents();
+
+listenWindowFocus();
