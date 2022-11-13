@@ -1,10 +1,9 @@
-
 let lastActivityTime = null;
 let intervalId = null;
 
 function listenTimeoutAtBackground() {
   intervalId = setInterval(() => {
-    if (checkIsCurrentFocusedWindow() && checkIsWarningActivity()) {
+    if (checkIsFocused() && checkIsWarningActivity()) {
       alert("Idle");
 
       if (checkIsExpiredActivity()) {
@@ -60,16 +59,8 @@ function computeActivityStatus() {
   return lastActivityTime ? "Active" : "Expired";
 }
 
-function listenWindowFocus() {
-  window.addEventListener("focus", () => {
-    setCurrentFocusedWindow(window);
-  });
-
-  setCurrentFocusedWindow(window);
-}
-
-function checkIsCurrentFocusedWindow() {
-  return getCurrentFocusedWindow() === window;
+function checkIsFocused() {
+  return document.hasFocus();
 }
 
 wrapByPatch(refreshActivityTime, APPLICATION_REFRESH);
@@ -77,5 +68,3 @@ wrapByPatch(refreshActivityTime, APPLICATION_REFRESH);
 listenTimeoutAtBackground();
 
 listenApplicationEvents();
-
-listenWindowFocus();
